@@ -1,0 +1,33 @@
+name: Rust
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+defaults:
+  run:
+    shell: bash
+    working-directory: hello
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run tests
+      run: cargo test --verbose
+    - name: Prepare env
+      run: apt install gcc-arm-linux-gnueabihf
+    - name: Build/x86
+      run: cargo build --verbose --release
+    - name: Build/arm
+      run: cargo build --verbose --release --target=armv7-unknown-linux-gnueabihf
+    - uses: actions/upload-artifact@v3
+      with:
+        name: my-artifact
+        path: target/
