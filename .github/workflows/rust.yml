@@ -22,7 +22,7 @@ jobs:
     - name: Run tests
       run: cargo test --verbose
     - name: Prepare env
-      run: apt install gcc-arm-linux-gnueabihf
+      run: sudo apt install -y gcc-arm-linux-gnueabihf
     - name: Build/x86
       run: cargo build --verbose --release
     - name: Build/arm
